@@ -1,0 +1,97 @@
+# Virtual Environment
+venv/
+.env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment Variables
+.env
+.env.local
+
+# IDE Files
+.vscode/
+.idea/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# SQLite Database
+*.db
+*.sqlite3
+
+# Uploaded PDFs
+uploads/
+
+# Vector Database
+vectorstore/
+chroma_db/
+chromadb/
+
+# Model Cache
+.huggingface/
+.cache/
+models/
+
+# Build Files
+build/
+dist/
+*.egg-info/
+
+# Pytest
+.pytest_cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Coverage Reports
+.coverage
+htmlcov/
+
+# Temporary Files
+tmp/
+temp/
+
+
+
+# Project Specific
+
+# Uploaded research papers
+uploads/
+
+# ChromaDB / Vector DB
+vectorstore/
+chroma_db/
+chromadb/
+
+# HuggingFace cache
+.huggingface/
+.cache/
+models/
+
+# Environment files
+.env.local
+.env.dev
+.env.production
+
+# VS Code
+.vscode/
+
+# JetBrains IDEs
+.idea/
+
+# Temporary files
+tmp/
+temp/
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
