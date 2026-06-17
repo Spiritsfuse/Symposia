@@ -1,6 +1,3 @@
-import json
-
-from services.vector_service import search_claims
 from services.llm_service import client
 
 

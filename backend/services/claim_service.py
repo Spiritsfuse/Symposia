@@ -30,7 +30,7 @@ Text:
 """
 
 
-def extract_claims(chunk_text: str):
+def extract_claims(chunk_text: str, page_number=None, chunk_id=None):
 
     prompt = PROMPT.format(text=chunk_text)
 
@@ -40,6 +40,20 @@ def extract_claims(chunk_text: str):
         temperature=0,
     )
 
-    result = response.choices[0].message.content
+    result = response.choices[0].message.content.strip()
 
-    return result
+    if result.startswith("```"):
+        result = result.strip("`")
+        result = result.removeprefix("json").strip()
+
+    parsed_result = json.loads(result)
+    claims = parsed_result.get("claims", [])
+
+    for claim in claims:
+        if page_number is not None:
+            claim["page_number"] = page_number
+
+        if chunk_id is not None:
+            claim["chunk_id"] = chunk_id
+
+    return claims
