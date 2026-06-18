@@ -1,5 +1,5 @@
 import { FileText, UploadCloud } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import Button from "../common/Button";
 import ErrorBanner from "../common/ErrorBanner";
 import UploadProgress from "./UploadProgress";
@@ -13,6 +13,49 @@ export default function PdfUploader({
   const inputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [localError, setLocalError] = useState("");
+  const [elapsed, setElapsed] = useState(0);
+
+  // Timer to track how long analysis has been running
+  useEffect(() => {
+    let timer;
+    if (isAnalyzing) {
+      setElapsed(0);
+      timer = setInterval(() => {
+        setElapsed((prev) => prev + 1);
+      }, 1000);
+    } else {
+      setElapsed(0);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [isAnalyzing]);
+
+  // Determine active pipeline stage based on elapsed time and upload progress
+  const stage = useMemo(() => {
+    if (!isAnalyzing) return "";
+    if (progress < 100) return "Uploading PDF...";
+    if (elapsed < 3) return "Extracting pages...";
+    if (elapsed < 6) return "Chunking document...";
+    if (elapsed < 14) return "Extracting research claims...";
+    if (elapsed < 19) return "Generating embeddings...";
+    if (elapsed < 23) return "Building semantic index...";
+    if (elapsed < 27) return "Performing synthesis...";
+    if (elapsed < 35) return "Generating research brief...";
+    return "Finalizing results...";
+  }, [isAnalyzing, progress, elapsed]);
+
+  // Select warning/informational messages based on runtime thresholds
+  const timeoutMessage = useMemo(() => {
+    if (!isAnalyzing) return "";
+    if (elapsed >= 45) {
+      return "Still analyzing your paper. Please keep this page open.";
+    }
+    if (elapsed >= 22) {
+      return "Analysis is taking longer than expected. Large PDFs may require additional processing time.";
+    }
+    return "Large research papers typically take between 30 seconds and 2 minutes to analyze depending on document length.";
+  }, [isAnalyzing, elapsed]);
 
   function handleFileChange(event) {
     const file = event.target.files?.[0];
@@ -52,13 +95,14 @@ export default function PdfUploader({
           className="mt-2 flex w-full flex-col items-center justify-center rounded-lg border border-dashed border-slate-300 bg-white px-4 py-8 text-center transition hover:border-cyan-500 hover:bg-cyan-50"
           onClick={() => inputRef.current?.click()}
           aria-describedby="pdf-upload-help"
+          disabled={isAnalyzing}
         >
           <UploadCloud className="h-8 w-8 text-cyan-700" aria-hidden="true" />
           <span className="mt-3 text-sm font-semibold text-slate-900">
             {selectedFile ? selectedFile.name : "Choose PDF"}
           </span>
           <span id="pdf-upload-help" className="mt-1 text-xs text-slate-500">
-            Multipart upload to /analyze-paper
+            Select standard research PDF paper
           </span>
         </button>
         <input
@@ -92,10 +136,15 @@ export default function PdfUploader({
         disabled={isAnalyzing}
       >
         <FileText className="h-4 w-4" aria-hidden="true" />
-        {isAnalyzing ? "Analyzing Paper" : "Analyze Paper"}
+        {isAnalyzing ? "Analyzing Paper..." : "Analyze Paper"}
       </Button>
 
-      <UploadProgress progress={progress} isAnalyzing={isAnalyzing} />
+      <UploadProgress
+        progress={progress}
+        isAnalyzing={isAnalyzing}
+        stage={stage}
+        timeoutMessage={timeoutMessage}
+      />
     </div>
   );
 }

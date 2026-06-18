@@ -1,11 +1,10 @@
 # 🤝 Contributing
 
-Thank you for contributing to the AI Research Synthesis Engine.
+Thank you for contributing to Symposia.
 
 ## Workflow
 
 1. Create a new branch
-
 ```bash
 git checkout -b feature/your-feature-name
 ```
@@ -15,13 +14,11 @@ git checkout -b feature/your-feature-name
 3. Test locally
 
 Backend:
-
 ```bash
 uvicorn main:app --reload
 ```
 
 Frontend:
-
 ```bash
 npm run dev
 ```
@@ -29,16 +26,14 @@ npm run dev
 4. Commit using conventional commits
 
 Examples:
-
 ```bash
-git commit -m "feat: implement claim extraction"
-git commit -m "fix: resolve PDF upload issue"
-git commit -m "docs: update README"
-git commit -m "refactor: improve synthesis pipeline"
+git commit -m "feat: implement workspace search"
+git commit -m "fix: resolve PDF parse error handling"
+git commit -m "docs: update deployment instructions"
+git commit -m "refactor: optimize provider abstractions"
 ```
 
 5. Push your branch
-
 ```bash
 git push origin feature/your-feature-name
 ```
@@ -51,19 +46,19 @@ git push origin feature/your-feature-name
 
 ```text
 backend/
-├── api/         # API routes
-├── services/    # Business logic
-├── models/      # Data models
-├── uploads/     # Uploaded PDFs
-├── vectorstore/ # ChromaDB storage
-└── data/        # Generated outputs
+├── api/         # API routes (analysis, papers, PDFs)
+├── services/    # Business logic (briefs, claims, chunking)
+│   └── providers/ # Abstractions for AI models (Gemini)
+├── uploads/     # Uploaded PDFs (cleared on duplicate analysis)
+├── vectorstore/ # ChromaDB persistent local database
+└── data/        # Generated JSON & brief data files
 
 frontend/
-├── components/  # Reusable UI components
-├── pages/       # Application pages
-├── services/    # API calls
-├── hooks/       # Custom React hooks
-└── layouts/     # Page layouts
+├── components/  # Reusable React components (Brief, Claims, Common, Papers, Upload)
+├── pages/       # Application views (Home, Workspace, NotFound)
+├── services/    # API network utilities
+├── hooks/       # Custom React hooks (usePaperSearch, usePaperAnalysis)
+└── layouts/     # Workspace and Main navigation layouts
 ```
 
 ---
@@ -72,11 +67,11 @@ frontend/
 
 | Type     | Example                             |
 | -------- | ----------------------------------- |
-| Feature  | `feat: add paper search`            |
-| Fix      | `fix: resolve upload bug`           |
-| Refactor | `refactor: simplify chunking logic` |
-| Docs     | `docs: update README`               |
-| Test     | `test: add synthesis validation`    |
+| Feature  | `feat: add workspace search`        |
+| Fix      | `fix: resolve upload boundary bug`  |
+| Refactor | `refactor: clean up provider files` |
+| Docs     | `docs: update setup instructions`   |
+| Test     | `test: add integration test suite`  |
 
 ---
 
@@ -85,22 +80,18 @@ frontend/
 ### Backend Dependencies
 
 Install using:
-
 ```bash
 pip install -r requirements.txt
 ```
 
 Core packages:
-
 * FastAPI
 * Uvicorn
 * Pydantic
 * Requests
 * arXiv
 * PyMuPDF
-* Groq
 * Python-dotenv
-* Sentence-Transformers
 * ChromaDB
 
 ---
@@ -108,13 +99,11 @@ Core packages:
 ### Frontend Dependencies
 
 Install using:
-
 ```bash
 npm install
 ```
 
 Core packages:
-
 * React
 * Vite
 * React Router DOM
@@ -122,62 +111,41 @@ Core packages:
 * React Query
 * Tailwind CSS
 * React Hook Form
+* Lucide React
 
 ---
 
 ## 🔑 External APIs & Services
 
 ### arXiv API
-
-Used for:
-
-* Research paper discovery
-* Paper metadata retrieval
-
-No API key required.
+Used for dynamic research paper discovery. No API key required.
 
 ---
 
-### Groq API
-
-Used for:
-
-* Claim extraction
-* Theme generation
-* Research brief generation
-
-Required:
-
+### Gemini API
+Used for embeddings, claim extraction, theme synthesis, and brief generation.
+Required environment variables:
 ```env
-GROQ_API_KEY=your_api_key
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_LLM_MODEL=gemini-3.1-flash-lite
+GEMINI_EMBEDDING_MODEL=gemini-embedding-2
 ```
 
 ---
 
 ### ChromaDB
-
-Used for:
-
-* Vector storage
-* Semantic search
-* Similarity retrieval
-
-Runs locally. No API key required.
+Used for semantic claim indexing and local workspace search. Runs locally without external services.
 
 ---
 
 ## ⚙️ Environment Setup
 
-Create:
-
-```text
-backend/.env
-```
-
-Add:
-
+Create `backend/.env`:
 ```env
-GROQ_API_KEY=your_groq_api_key
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_LLM_MODEL=gemini-3.1-flash-lite
+GEMINI_EMBEDDING_MODEL=gemini-embedding-2
+ENV=development
 ```
 
 ---
@@ -185,37 +153,20 @@ GROQ_API_KEY=your_groq_api_key
 ## 🚀 Quick Start
 
 Backend:
-
 ```bash
 cd backend
-
 python -m venv venv
-
-source venv/bin/activate
-
-pip install -r requirements.txt
-
+.\venv\Scripts\Activate.ps1
+pip install -r ..\requirements.txt
 uvicorn main:app --reload
 ```
 
 Frontend:
-
 ```bash
 cd frontend
-
 npm install
-
 npm run dev
 ```
 
-Backend:
-
-```text
-http://127.0.0.1:8000
-```
-
-Frontend:
-
-```text
-http://localhost:5173
-```
+Backend endpoint: `http://127.0.0.1:8000`
+Frontend endpoint: `http://localhost:5173`

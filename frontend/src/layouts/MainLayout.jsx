@@ -1,24 +1,40 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { BookOpen } from "lucide-react";
 
 export default function MainLayout() {
   return (
-    <div className="min-h-screen">
-      <header className="border-b border-slate-200 bg-white/90 backdrop-blur">
+    <div className="min-h-screen flex flex-col bg-slate-50">
+      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur shadow-sm">
         <nav
-          className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
+          className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8"
           aria-label="Primary navigation"
         >
-          <NavLink to="/" className="text-sm font-black text-slate-950">
-            AI Research Synthesis Engine
+          <NavLink to="/" className="flex items-center gap-2 text-base font-extrabold text-slate-900 tracking-tight group">
+            <div className="bg-cyan-700 text-white p-1.5 rounded-lg group-hover:bg-cyan-800 transition-colors">
+              <BookOpen className="h-4.5 w-4.5" />
+            </div>
+            <span>Symposia <span className="font-medium text-xs text-cyan-700 tracking-wider uppercase ml-1.5 bg-cyan-50 px-2 py-0.5 rounded border border-cyan-150">Engine</span></span>
           </NavLink>
           <div className="flex items-center gap-2">
             <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `rounded-md px-3 py-1.5 text-xs font-bold transition-all ${
+                  isActive
+                    ? "bg-slate-100 text-slate-900"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                }`
+              }
+            >
+              Home
+            </NavLink>
+            <NavLink
               to="/workspace"
               className={({ isActive }) =>
-                `rounded-md px-3 py-2 text-sm font-semibold ${
+                `rounded-md px-3 py-1.5 text-xs font-bold transition-all ${
                   isActive
-                    ? "bg-cyan-700 text-white"
-                    : "text-slate-700 hover:bg-slate-100"
+                    ? "bg-cyan-700 text-white shadow-sm"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                 }`
               }
             >
@@ -27,7 +43,7 @@ export default function MainLayout() {
           </div>
         </nav>
       </header>
-      <main>
+      <main className="flex-1 flex flex-col">
         <Outlet />
       </main>
     </div>

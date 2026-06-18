@@ -30,3 +30,10 @@ export async function searchPapers(query) {
 
   return validatePaperSearchResponse(response.data);
 }
+
+export async function searchLibrary(query) {
+  const response = await api.get("/papers/search-library", {
+    params: { query },
+  });
+  return response.data;
+}

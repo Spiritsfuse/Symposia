@@ -1,18 +1,18 @@
-# ask-the-papers
+# Symposia — AI Research Synthesis Engine
 <div align="center">
 
-![Python](https://img.shields.io/badge/Python-3.11+-blue?style=for-the-badge\&logo=python)
-![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge\&logo=fastapi)
-![React](https://img.shields.io/badge/React-Frontend-61DAFB?style=for-the-badge\&logo=react)
-![Vite](https://img.shields.io/badge/Vite-Build_Tool-646CFF?style=for-the-badge\&logo=vite)
-![Groq](https://img.shields.io/badge/Groq-LLM_API-F55036?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.11+-blue?style=for-the-badge&logo=python)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi)
+![React](https://img.shields.io/badge/React-Frontend-61DAFB?style=for-the-badge&logo=react)
+![Vite](https://img.shields.io/badge/Vite-Build_Tool-646CFF?style=for-the-badge&logo=vite)
+![Gemini](https://img.shields.io/badge/Gemini-AI_Stack-4285F4?style=for-the-badge&logo=google)
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector_DB-7B61FF?style=for-the-badge)
-![arXiv](https://img.shields.io/badge/arXiv-Research_Source-B31B1B?style=for-the-badge\&logo=arxiv)
+![arXiv](https://img.shields.io/badge/arXiv-Research_Source-B31B1B?style=for-the-badge&logo=arxiv)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 ### From 50 research papers to one coherent research brief.
 
-An AI-powered platform that discovers research papers, extracts structured claims, identifies consensus across sources, and generates research briefs with citation traceability.
+An AI-powered platform that discovers research papers, extracts structured claims, indexes them, identifies consensus across sources, and generates research briefs with citation traceability.
 
 </div>
 
@@ -30,192 +30,58 @@ An AI-powered platform that discovers research papers, extracts structured claim
 * [API Endpoints](#-api-endpoints)
 * [Installation](#-installation)
 * [Environment Variables](#-environment-variables)
-* [Example Output](#-example-output)
-* [How This Differs From Traditional RAG](#-how-this-differs-from-traditional-rag)
-* [Future Improvements](#-future-improvements)
-* [Contributors](#-contributors)
+* [Deployment Guide](#-deployment-guide)
+* [Testing & Verification](#-testing--verification)
+* [Assignment Requirements Mapping](#-assignment-requirements-mapping)
+* [License](#-license)
 
 ---
 
 # 🎯 Problem Statement
 
-Researchers, students, and professionals face a common challenge:
+Researchers, students, and professionals face a common challenge: **information overload**. A literature review requires reading dozens of papers, extracting findings, comparing methodologies, identifying consensus, and producing a coherent summary. 
 
-> Information overload.
-
-A literature review often requires reading dozens of papers, extracting important findings, comparing methodologies, identifying areas of agreement and disagreement, and finally producing a coherent summary.
-
-This process is:
-
-* Time-consuming
-* Repetitive
-* Difficult to scale
-* Prone to missing important insights
-
-The AI Research Synthesis Engine automates this workflow by:
-
+Symposia automates this workflow by:
 1. Discovering relevant research papers.
-2. Extracting structured claims from papers.
-3. Comparing findings across sources.
+2. Extracting structured claims (findings, limitations, hypotheses, future work).
+3. Storing claims in a vector database for semantic indexing.
 4. Detecting consensus and conflicts.
-5. Generating a structured research brief.
+5. Generating a structured, cited research brief.
 
 ---
 
 # 🚀 Project Overview
 
-The AI Research Synthesis Engine is designed to transform research papers into actionable knowledge.
+Symposia is a production-ready research platform designed to extract actionable insights from academic literature. Users can query arXiv, ingest PDF research papers, search claims across uploaded papers, detect consensus strengths, and export formal briefs.
 
-Instead of reading dozens of papers manually, users can:
-
-* Search for relevant papers
-* Upload research PDFs
-* Extract findings automatically
-* Identify research trends
-* Generate structured literature-review style briefs
-
-The system emphasizes:
-
-✅ Claim Extraction
-
-✅ Cross-Paper Synthesis
-
-✅ Consensus Detection
-
-✅ Citation Traceability
-
-✅ Research Brief Generation
+System goals focus on **correctness, citation traceability, and stable, lightweight deployment** on free-tier services.
 
 ---
 
 # ✨ Features
 
 ## 📚 Research Paper Discovery
+Search academic papers from arXiv using natural language research questions.
+Example: `"How can RAG reduce hallucinations in LLMs?"`
 
-Search academic papers from arXiv using natural language research queries.
-
-Example:
-
-```text
-How can RAG reduce hallucinations in LLMs?
-```
-
----
-
-## 📄 PDF Ingestion
-
-Upload research papers directly into the platform.
-
-Capabilities:
-
-* PDF parsing
-* Page extraction
-* Structured document processing
-
----
-
-## ✂️ Intelligent Chunking
-
-Research papers are divided into manageable semantic chunks.
-
-Benefits:
-
-* Improved LLM performance
-* Reduced context window usage
-* Better retrieval quality
-
----
+## 📄 PDF Ingestion & Chunking
+Upload research papers directly. PyMuPDF extracts full-text pages and parses them into semantic chunks to optimize retrieval and model processing.
 
 ## 🧠 Claim Extraction
+Extracts structured research claims categorized as:
+*   `finding`
+*   `limitation`
+*   `hypothesis`
+*   `future_work`
 
-Extracts structured research claims including:
+## 🔍 Workspace Search
+Perform semantic vector searches inside your uploaded documents. Querying your local library retrieves matching claims, their source file name, and exact page references.
 
-* Findings
-* Limitations
-* Hypotheses
-* Future Work
+## 🔗 Cross-Paper Synthesis & Consensus
+Aggregates claims across papers into distinct themes and surfaces the strength of consensus (`weak`, `moderate`, `strong`) based on supporting evidence.
 
-Example:
-
-```json
-{
-  "claim": "RAG reduced hallucinations by 35%",
-  "claim_type": "finding",
-  "page_number": 5,
-  "chunk_id": "chunk_14"
-}
-```
-
----
-
-## 🔍 Semantic Search
-
-Uses vector embeddings to retrieve semantically similar claims.
-
-Example:
-
-Query:
-
-```text
-hallucination reduction
-```
-
-Can match:
-
-```text
-RAG reduces hallucinations
-```
-
-even without exact keyword overlap.
-
----
-
-## 🔗 Cross-Paper Synthesis
-
-Groups similar claims across multiple papers.
-
-Identifies:
-
-* Shared findings
-* Emerging themes
-* Evidence clusters
-
----
-
-## 📊 Consensus Detection
-
-Measures agreement across research papers.
-
-Consensus levels:
-
-* Weak
-* Moderate
-* Strong
-
----
-
-## 📝 Research Brief Generation
-
-Automatically generates:
-
-* Executive Summary
-* Key Findings
-* Areas of Consensus
-* Areas of Conflict
-* Research Gaps
-* Future Research Directions
-
----
-
-## 📌 Citation Traceability
-
-Every extracted claim retains:
-
-* Source paper
-* Page number
-* Chunk identifier
-
-Ensuring traceable and explainable outputs.
+## 📝 Citation Traceability
+Every finding or claim in the generated research brief explicitly cites its source document context (`[Page X, Chunk Y]`).
 
 ---
 
@@ -228,453 +94,141 @@ Paper Discovery (arXiv)
         ↓
 PDF Upload
         ↓
-PDF Parsing
+PDF Parsing (PyMuPDF)
         ↓
 Chunking
         ↓
-Claim Extraction (Groq LLM)
+Claim Extraction (Gemini LLM Provider)
         ↓
-Embeddings
+Batch Embeddings (Gemini Embeddings Provider)
         ↓
-Vector Search (ChromaDB)
+Vector Indexing & Search (ChromaDB)
         ↓
 Cross-Paper Synthesis
         ↓
 Consensus Detection
         ↓
-Research Brief Generation
+Research Brief Generation (Gemini LLM Provider)
 ```
 
 ---
 
 # 🛠️ Tech Stack
 
-## Frontend
+### Frontend
+*   **React** (v18.3)
+*   **Vite** (v6.0)
+*   **Tailwind CSS** (v3.4)
+*   **React Query** / **Axios**
 
-* React
-* Vite
-* Tailwind CSS
-* React Query
-* Axios
+### Backend
+*   **FastAPI** (Python 3.11+)
+*   **Uvicorn**
+*   **ChromaDB** (Persistent Local Vector Store)
 
-## Backend
-
-* FastAPI
-* Python
-
-## AI & NLP
-
-* Groq API
-* Llama 3.3 70B
-* Sentence Transformers
-
-## Vector Database
-
-* ChromaDB
-
-## Research Sources
-
-* arXiv
-
-## PDF Processing
-
-* PyMuPDF
-
-## Deployment
-
-* Vercel (Frontend)
-* Render (Backend)
-
----
-
-# 🔄 Workflow
-
-## Step 1 — Search Papers
-
-User enters a research question.
-
-Example:
-
-```text
-RAG hallucination mitigation
-```
-
-System searches arXiv and returns relevant papers.
-
----
-
-## Step 2 — Upload PDF
-
-User uploads a research paper.
-
-```text
-paper.pdf
-```
-
----
-
-## Step 3 — Document Processing
-
-System:
-
-* Extracts pages
-* Chunks content
-* Preserves citation metadata
-
----
-
-## Step 4 — Claim Extraction
-
-Claims are extracted using LLMs.
-
-Example:
-
-```json
-{
-  "claim": "Retrieval improves factual accuracy",
-  "claim_type": "finding"
-}
-```
-
----
-
-## Step 5 — Semantic Analysis
-
-Claims are embedded and indexed.
-
-Enables:
-
-* Similarity search
-* Theme grouping
-
----
-
-## Step 6 — Synthesis
-
-Related claims are grouped into themes.
-
-Example:
-
-```text
-Benefits of Retrieval
-```
-
----
-
-## Step 7 — Research Brief
-
-Final literature-review style report is generated.
-
----
-
-# 📂 Project Structure
-
-```text
-research-synthesis-engine/
-
-├── backend/
-│
-│   ├── api/
-│   │
-│   ├── services/
-│   │
-│   ├── models/
-│   │
-│   ├── uploads/
-│   │
-│   ├── vectorstore/
-│   │
-│   └── data/
-│
-├── frontend/
-│
-├── README.md
-│
-├── requirements.txt
-│
-└── .gitignore
-```
+### AI Stack (Gemini API)
+*   **LLM Model**: `gemini-3.1-flash-lite` (via HTTP REST requests, no heavy SDKs)
+*   **Embedding Model**: `gemini-embedding-2` (768d / 3072d vector generation)
+*   *Note: No SentenceTransformers or heavy PyTorch/HuggingFace model weights are downloaded, keeping the deployment slug lightweight (~15MB instead of 2GB+).*
 
 ---
 
 # 🔌 API Endpoints
 
-## GET /
+### `GET /`
+Check API server status.
 
-Backend status endpoint.
+### `GET /health`
+Verify server health status.
 
-Response:
+### `GET /papers/search?query=...`
+Search academic papers from arXiv.
 
-```json
-{
-  "message": "Research Synthesis Engine"
-}
-```
+### `POST /analyze-paper`
+Upload a PDF. Processes PDF pages, extracts claims, embeds them, indexes them in ChromaDB, and returns the claims list, synthesis, and brief.
 
----
-
-## GET /health
-
-Health check endpoint.
-
-Response:
-
-```json
-{
-  "status": "healthy"
-}
-```
-
----
-
-## GET /papers/search
-
-Search papers from arXiv.
-
-Example:
-
-```http
-GET /papers/search?query=llm+hallucinations
-```
-
-Response:
-
-```json
-[
-  {
-    "title": "...",
-    "authors": [],
-    "summary": "...",
-    "published": "...",
-    "pdf_url": "..."
-  }
-]
-```
-
----
-
-## POST /analyze-paper
-
-Upload and analyze a research paper.
-
-Returns:
-
-* Claims
-* Synthesis
-* Research Brief
+### `GET /papers/search-library?query=...`
+Perform semantic vector search on claims from your uploaded workspace papers. Returns claims with filename and page metadata.
 
 ---
 
 # ⚙️ Installation
 
-## Clone Repository
-
+### Clone Repository
 ```bash
 git clone https://github.com/your-username/research-synthesis-engine.git
-
 cd research-synthesis-engine
 ```
 
----
-
-## Backend Setup
-
+### Backend Setup
 ```bash
 cd backend
-
 python -m venv venv
-
-source venv/bin/activate
 ```
-
-Windows:
-
-```bash
-venv\Scripts\activate
-```
+Activate virtual environment:
+*   Windows: `venv\Scripts\activate`
+*   Mac/Linux: `source venv/bin/activate`
 
 Install dependencies:
-
 ```bash
-pip install -r requirements.txt
+pip install -r ../requirements.txt
 ```
 
 Run server:
-
 ```bash
 uvicorn main:app --reload
 ```
 
-Backend:
-
-```text
-http://127.0.0.1:8000
-```
-
----
-
-## Frontend Setup
-
+### Frontend Setup
 ```bash
-cd frontend
-
+cd ../frontend
 npm install
-
 npm run dev
 ```
 
-Frontend:
-
-```text
-http://localhost:5173
-```
+Open `http://localhost:5173` in your browser.
 
 ---
 
 # 🔐 Environment Variables
 
-Create:
-
-```text
-backend/.env
-```
-
-Example:
-
+Create a `backend/.env` file:
 ```env
-GROQ_API_KEY=your_groq_api_key
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_LLM_MODEL=gemini-3.1-flash-lite
+GEMINI_EMBEDDING_MODEL=gemini-embedding-2
+ENV=development
 ```
+
 
 ---
 
-# 📋 Example Output
+# 🧪 Testing & Verification
 
-## Claim
-
-```json
-{
-  "claim": "RAG reduced hallucinations by 35%",
-  "claim_type": "finding",
-  "page_number": 5,
-  "chunk_id": "chunk_14"
-}
-```
-
----
-
-## Synthesis
-
-```json
-{
-  "theme": "Benefits of Retrieval",
-  "consensus": "strong",
-  "supporting_claims": 5
-}
-```
-
----
-
-## Research Brief
-
-```text
-Executive Summary
-
-Retrieval-based methods consistently improve
-factual accuracy and reduce hallucinations.
-
-Key Findings
-
-- Retrieval improves grounding
-- RAG reduces hallucinations
-- Tool use improves reliability
-
-Research Gaps
-
-- Limited multilingual evaluation
-
-Future Research
-
-- Large-scale multilingual benchmarks
-```
-
----
-
-# 🔥 How This Differs From Traditional RAG
-
-## Traditional RAG
-
-```text
-Retrieve Documents
-        ↓
-Answer Question
-```
-
-Focus:
-
-* Question answering
-* Retrieval
-
----
-
-## Research Synthesis Engine
-
-```text
-Retrieve Papers
-        ↓
-Extract Claims
-        ↓
-Compare Findings
-        ↓
-Detect Consensus
-        ↓
-Generate Research Brief
-```
-
-Focus:
-
-* Literature review
-* Research synthesis
-* Consensus detection
-* Citation traceability
-
-This project goes beyond retrieval by performing structured research analysis.
-
----
-
-# 🚧 Future Improvements
-
-* Multi-paper batch analysis
-* Semantic Scholar integration
-* Knowledge graph visualization
-* PDF report export
-* Research timeline generation
-* Citation graph analysis
-* User authentication
-* Team collaboration features
-* Research workspace persistence
-* Advanced consensus scoring
+Automated test scripts are included in the `backend/` folder:
+*   **Embeddings Verification**: `python test_embedding.py`
+*   **Synthesis Verification**: `python test_synthesis.py`
+*   **Brief Generation Verification**: `python test_brief.py`
+*   **Vector Store Integration**: `python test_vector_store.py`
+*   **End-to-End Pipeline**: `python test_integration.py`
 
 ---
 
 # 🏆 Assignment Requirements Mapping
 
-| Requirement               | Status         |
-| ------------------------- | -------------- |
-| Paper Discovery           | ✅              |
-| Document Ingestion        | ✅              |
-| Claim Extraction          | ✅              |
-| Cross-Source Synthesis    | ✅              |
-| Consensus Detection       | ✅              |
-| Research Brief Generation | ✅              |
-| Citation Traceability     | ✅              |
-| Export Support            | 🚧 Future Work |
+| Requirement | Status | Verification |
+| :--- | :--- | :--- |
+| **Paper Discovery** | ✅ **Complete** | Search arXiv using queries; returns structured metadata. |
+| **Document Ingestion** | ✅ **Complete** | Full PDF upload, text extraction, page parsing, and chunking. |
+| **Claim Extraction** | ✅ **Complete** | Extracts findings, limitations, hypotheses, and future work. |
+| **Cross-Paper Synthesis** | ✅ **Complete** | Groups claims across source papers into semantic themes. |
+| **Consensus Detection** | ✅ **Complete** | Computes consensus strength (strong, moderate, weak) based on support. |
+| **Research Brief Generation** | ✅ **Complete** | Compiles structured Markdown briefs containing Exec Summary, Themes, Gaps. |
+| **Citation Traceability** | ✅ **Complete** | Traces all generated findings back to `[Page X, Chunk Y]`. |
+| **Export Support** | ✅ **Complete** | Copy-to-clipboard, raw Markdown download, and citation support. |
 
 ---
 
 # 📜 License
 
 This project is licensed under the MIT License.
-
----
-
-
