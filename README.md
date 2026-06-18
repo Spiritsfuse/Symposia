@@ -18,22 +18,45 @@ An AI-powered platform that discovers research papers, extracts structured claim
 
 ---
 
+## 🚀 Live Demo
+
+*   **Live Web Application**: [symposia-ten.vercel.app](https://symposia-ten.vercel.app/)
+*   **Workspace**: [symposia-ten.vercel.app/workspace](https://symposia-ten.vercel.app/workspace)
+*   **Production API (Backend)**: [symposia.onrender.com/docs](https://symposia.onrender.com/docs)
+
+> [!NOTE]
+> *   **Live Web Application**: Search and discover papers from arXiv, and upload new literature to build your semantic library.
+> *   **Workspace**: Access synthesized research briefs, explore structured claims, and run semantic queries across your analyzed documents.
+
+---
+
+## 📸 Screenshots
+
+### Landing Page & Paper Search
+Discover relevant papers using natural language queries directly integrated with the arXiv API.
+![Landing Page Screenshot](assets/home_page.png)
+
+### Workspace Analysis & Synthesis Briefs
+Upload files to build your semantic library. Perform vector searches, explore extracted claims, and synthesize cross-paper briefs with consensus scoring and source tracking.
+![Workspace Page Screenshot](assets/workspace_page.png)
+
+---
+
 # 📖 Table of Contents
 
-* [Problem Statement](#-problem-statement)
-* [Project Overview](#-project-overview)
-* [Features](#-features)
-* [System Architecture](#-system-architecture)
-* [Tech Stack](#-tech-stack)
-* [Workflow](#-workflow)
-* [Project Structure](#-project-structure)
-* [API Endpoints](#-api-endpoints)
-* [Installation](#-installation)
-* [Environment Variables](#-environment-variables)
-* [Deployment Guide](#-deployment-guide)
-* [Testing & Verification](#-testing--verification)
-* [Assignment Requirements Mapping](#-assignment-requirements-mapping)
-* [License](#-license)
+*   [🚀 Live Demo](#-live-demo)
+*   [📸 Screenshots](#-screenshots)
+*   [🎯 Problem Statement](#-problem-statement)
+*   [🚀 Project Overview](#-project-overview)
+*   [✨ Features](#-features)
+*   [🏗️ System Architecture](#-system-architecture)
+*   [🛠️ Tech Stack](#-tech-stack)
+*   [🔌 API Endpoints](#-api-endpoints)
+*   [⚙️ Installation](#-installation)
+*   [🔐 Environment Variables](#-environment-variables)
+*   [🧪 Testing & Verification](#-testing--verification)
+*   [🏆 Assignment Requirements Mapping](#-assignment-requirements-mapping)
+*   [📜 License](#-license)
 
 ---
 
@@ -61,27 +84,27 @@ System goals focus on **correctness, citation traceability, and stable, lightwei
 # ✨ Features
 
 ## 📚 Research Paper Discovery
-Search academic papers from arXiv using natural language research questions.
-Example: `"How can RAG reduce hallucinations in LLMs?"`
+Discover academic literature from arXiv using natural language search queries.
+*Example: `"How can RAG reduce hallucinations in LLMs?"`*
 
 ## 📄 PDF Ingestion & Chunking
-Upload research papers directly. PyMuPDF extracts full-text pages and parses them into semantic chunks to optimize retrieval and model processing.
+Seamlessly upload PDF documents. PyMuPDF extracts page-by-page text and parses it into semantic chunks, optimizing context windows and retrieval accuracy.
 
 ## 🧠 Claim Extraction
-Extracts structured research claims categorized as:
+Extracts key research claims structured into discrete categories:
 *   `finding`
 *   `limitation`
 *   `hypothesis`
 *   `future_work`
 
 ## 🔍 Workspace Search
-Perform semantic vector searches inside your uploaded documents. Querying your local library retrieves matching claims, their source file name, and exact page references.
+Execute semantic vector queries across your uploaded repository. Retrieve matching claims alongside metadata including source filename and precise page references.
 
 ## 🔗 Cross-Paper Synthesis & Consensus
-Aggregates claims across papers into distinct themes and surfaces the strength of consensus (`weak`, `moderate`, `strong`) based on supporting evidence.
+Consolidate extracted claims across multiple papers into high-level themes, evaluating consensus strength (`weak`, `moderate`, `strong`) based on structural alignment and supporting evidence.
 
 ## 📝 Citation Traceability
-Every finding or claim in the generated research brief explicitly cites its source document context (`[Page X, Chunk Y]`).
+Every synthesis point and claim in the research brief maintains a clear citation trace to its source page and chunk (`[Page X, Chunk Y]`).
 
 ---
 
@@ -156,8 +179,8 @@ Perform semantic vector search on claims from your uploaded workspace papers. Re
 
 ### Clone Repository
 ```bash
-git clone https://github.com/your-username/research-synthesis-engine.git
-cd research-synthesis-engine
+git clone https://github.com/Spiritsfuse/Symposia.git
+cd Symposia
 ```
 
 ### Backend Setup
@@ -205,7 +228,10 @@ ENV=development
 
 # 🧪 Testing & Verification
 
-Automated test scripts are included in the `backend/` folder:
+Automated test scripts are provided in the `backend/` directory to verify individual modules and the end-to-end processing pipeline.
+
+Make sure you are in the `backend` directory with your virtual environment active before running:
+
 *   **Embeddings Verification**: `python test_embedding.py`
 *   **Synthesis Verification**: `python test_synthesis.py`
 *   **Brief Generation Verification**: `python test_brief.py`
@@ -214,9 +240,9 @@ Automated test scripts are included in the `backend/` folder:
 
 ---
 
-# 🏆 Assignment Requirements Mapping
+# 🏆 Project Feature Coverage
 
-| Requirement | Status | Verification |
+| Requirement | Status | Implementation |
 | :--- | :--- | :--- |
 | **Paper Discovery** | ✅ **Complete** | Search arXiv using queries; returns structured metadata. |
 | **Document Ingestion** | ✅ **Complete** | Full PDF upload, text extraction, page parsing, and chunking. |
